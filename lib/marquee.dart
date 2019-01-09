@@ -503,7 +503,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
       "* Decrease the velocity, so the duration to animate within is longer.\n"
     );
 
-    print('Total length: $totalLength');
+/*    print('Total length: $totalLength');
     print('Start position: $_startPosition');
     print('Acceleration length: $accelerationLength');
     print('Acceleration target: $_accelerationTarget');
@@ -514,7 +514,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
     print('Acceleration duration: $_accelerationDuration');
     print('Linear duration: $_linearDuration');
     print('Deceleration duration: $_decelerationDuration');
-    print('Total duration: $_totalDuration');
+    print('Total duration: $_totalDuration');*/
   }
 
 
