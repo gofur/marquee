@@ -587,10 +587,9 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, i) {
         return i.isEven ? Container(
-          width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width + (widget.text.length + 100.0),
             child:Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[Image.network(widget.image, fit: BoxFit.fill, width: 100.0,), Expanded(child: Text(widget.text, style: widget.style))],)) : _buildBlankSpace();
+          children: <Widget>[Image.network(widget.image, width: 100.0,), Expanded(child: Text(widget.text, style: widget.style, maxLines: 1,))],)) : _buildBlankSpace();
       }
     );
   }
