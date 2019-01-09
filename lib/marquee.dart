@@ -96,6 +96,7 @@ class _IntegralCurve extends Curve {
 class Marquee extends StatefulWidget {
   Marquee({
     Key key,
+    this.image,
     @required this.text,
     this.style,
     this.scrollAxis = Axis.horizontal,
@@ -107,7 +108,8 @@ class Marquee extends StatefulWidget {
     Curve accelerationCurve = Curves.decelerate,
     this.decelerationDuration = Duration.zero,
     Curve decelerationCurve = Curves.decelerate,
-  })  : assert(text != null,
+  })  :
+        assert(text != null,
           "The text cannot be null. If you don't want to display something, "
           "consider passing an empty string instead."
         ),
@@ -161,12 +163,15 @@ class Marquee extends StatefulWidget {
         this.decelerationCurve = _IntegralCurve(decelerationCurve),
         super(key: key);
 
+
   /// The text to be displayed.
   /// 
   /// See also:
   /// 
   /// * [style] to style the text.
   final String text;
+
+  final String image;
 
   /// The style of the text to be displayed.
   /// 
@@ -391,6 +396,7 @@ class Marquee extends StatefulWidget {
 
   bool equals(Object other) {
     return other is Marquee
+        && text == other.text
       && text == other.text
       && style == other.style
       && scrollAxis == other.scrollAxis
@@ -466,7 +472,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
     //print('Initializing');
 
     // Calculate lengths (amount of pixels that each phase needs).
-    final totalLength = _getTextWidth() + widget.blankSpace;
+    final totalLength = _getTextWidth() + widget.blankSpace + 100.0;
     final accelerationLength = widget.accelerationCurve.integral * widget.velocity
         * _accelerationDuration.inMilliseconds / 1000.0;
     final decelerationLength = widget.decelerationCurve.integral * widget.velocity
@@ -497,18 +503,18 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
       "* Decrease the velocity, so the duration to animate within is longer.\n"
     );
 
-    /*//print('Total length: $totalLength');
-    //print('Start position: $_startPosition');
-    //print('Acceleration length: $accelerationLength');
-    //print('Acceleration target: $_accelerationTarget');
-    //print('Linear length: $linearLength');
-    //print('Linear target: $_linearTarget');
-    //print('Deceleration length: $decelerationLength');
-    //print('Deceleration target: $_decelerationTarget');
-    //print('Acceleration duration: $_accelerationDuration');
-    //print('Linear duration: $_linearDuration');
-    //print('Deceleration duration: $_decelerationDuration');
-    //print('Total duration: $_totalDuration');*/
+    print('Total length: $totalLength');
+    print('Start position: $_startPosition');
+    print('Acceleration length: $accelerationLength');
+    print('Acceleration target: $_accelerationTarget');
+    print('Linear length: $linearLength');
+    print('Linear target: $_linearTarget');
+    print('Deceleration length: $decelerationLength');
+    print('Deceleration target: $_decelerationTarget');
+    print('Acceleration duration: $_accelerationDuration');
+    print('Linear duration: $_linearDuration');
+    print('Deceleration duration: $_decelerationDuration');
+    print('Total duration: $_totalDuration');
   }
 
 
@@ -561,7 +567,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
   double _getTextWidth() {
     final span = TextSpan(text: widget.text, style: widget.style);
     final tp = TextPainter(
-      text: span,
+      text:  span,
       maxLines: 1,
       textDirection: TextDirection.ltr,
       //locale: Localizations.localeOf(context),
@@ -580,7 +586,11 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
       scrollDirection: widget.scrollAxis,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, i) {
-        return i.isEven ? Text(widget.text, style: widget.style) : _buildBlankSpace();
+        return i.isEven ? Container(
+          width: MediaQuery.of(context).size.width,
+            child:Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[Image.network(widget.image, fit: BoxFit.fill, width: 100.0,), Expanded(child: Text(widget.text, style: widget.style))],)) : _buildBlankSpace();
       }
     );
   }
