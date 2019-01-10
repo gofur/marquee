@@ -96,6 +96,7 @@ class _IntegralCurve extends Curve {
 class Marquee extends StatefulWidget {
   Marquee({
     Key key,
+    this.listOfWidgets,
     this.image,
     @required this.text,
     this.style,
@@ -109,10 +110,7 @@ class Marquee extends StatefulWidget {
     this.decelerationDuration = Duration.zero,
     Curve decelerationCurve = Curves.decelerate,
   })  :
-        assert(text != null,
-          "The text cannot be null. If you don't want to display something, "
-          "consider passing an empty string instead."
-        ),
+        
         assert(scrollAxis != null),
         assert(
           blankSpace != null,
@@ -170,6 +168,7 @@ class Marquee extends StatefulWidget {
   /// 
   /// * [style] to style the text.
   final String text;
+  final List<Widget> listOfWidgets;
 
   final String image;
 
@@ -586,7 +585,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
       scrollDirection: widget.scrollAxis,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, i) {
-        return i.isEven ? Container(
+        return i.isEven ? Container(child:Row(children: widget.listOfWidgets)) ?? Container(
             width: MediaQuery.of(context).size.width + (widget.text.length + 100.0),
             child:Row(
           children: <Widget>[Image.network(widget.image, width: 100.0,), Expanded(child: Text(widget.text, style: widget.style, maxLines: 1,))],)) : _buildBlankSpace();
