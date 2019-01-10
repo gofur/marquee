@@ -110,7 +110,7 @@ class Marquee extends StatefulWidget {
     this.decelerationDuration = Duration.zero,
     Curve decelerationCurve = Curves.decelerate,
   })  :
-        
+
         assert(scrollAxis != null),
         assert(
           blankSpace != null,
@@ -471,7 +471,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
     //print('Initializing');
 
     // Calculate lengths (amount of pixels that each phase needs).
-    final totalLength = _getTextWidth() + widget.blankSpace + 100.0;
+    final totalLength = _getTextWidth() + widget.blankSpace + 1000.0;
     final accelerationLength = widget.accelerationCurve.integral * widget.velocity
         * _accelerationDuration.inMilliseconds / 1000.0;
     final decelerationLength = widget.decelerationCurve.integral * widget.velocity
